@@ -1,0 +1,45 @@
+name: Verify Code
+on: [push]
+jobs:
+  bash_linter:
+    name: Lint Bash Script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run bash script checker
+      uses: luizm/action-sh-checker@v0.2.2
+      with:
+        sh_checker_exclude: gradlew
+  editorconfig_linter:
+    name: Lint Codebase based on EditorConfig
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run EditorConfig Linter
+      uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
+  verify_kotlin:
+    name: Verify Kotlin Codebase
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    # Cache Gradle dependencies
+    - name: Setup Cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'gradle.properties') }}
+
+    # Cache Gradle Wrapper
+    - name: Setup Gradle Wrapper Cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+    # Run ktlint
+    - name: Run KtLinter
+      run: ./gradlew ktlintCheck

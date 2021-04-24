@@ -1,0 +1,14 @@
+name: 'Check KDoc Present'
+description: 'Checks that all Kotlin files within the specified directory have KDoc present on all classes'
+author: takanuva15
+branding:
+  icon: 'check-square'
+  color: 'green'
+inputs:
+  kotlin_dir:
+    description: The directory containing the Kotlin source files to check
+    required: false
+    default: src/main/kotlin
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

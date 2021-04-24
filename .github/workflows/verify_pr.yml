@@ -1,0 +1,16 @@
+name: Run PR Checks
+on: [pull_request]
+jobs:
+  check_changelog:
+    name: Verify Changelog Updated
+    runs-on: ubuntu-latest
+    steps:
+    - name: Verify Changelog Updated
+      uses: takanuva15/verify-changelog-updated@v1
+#  check_kdoc:
+#    name: Verify KDoc Present on all Kotlin Classes
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Verify KDoc Present on all Kotlin Classes
+#        uses: takanuva15/check-kdoc-present@main
